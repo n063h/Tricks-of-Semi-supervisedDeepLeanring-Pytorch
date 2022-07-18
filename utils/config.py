@@ -67,6 +67,7 @@ def create_parser():
     parser.add_argument('--usp-weight', default=1.0, type=float, metavar='W', help='the upper of unsuperivsed weight (default: 1.0)')
     parser.add_argument('--weight-rampup', default=30, type=int, metavar='EPOCHS', help='the length of rampup weight (default: 30)')
     parser.add_argument('--ent-weight', type=float, metavar='W', help='the weight of minEnt regularization')
+    parser.add_argument('--mask-noisy', type=float,default=1.0, help='mask the loss whose weak aug sample is noisy')
 
     return parser
 

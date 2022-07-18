@@ -36,6 +36,8 @@ build_model = {
     'efixmatch': eFixMatch.Trainer,
     'emixpslabv1': eMixPseudoLabelv1.Trainer,
     'emixpslabv2': eMixPseudoLabelv2.Trainer,
+    'inoisyheadmatch': iNoisyHead.Trainer,
+    'inoisynetmatch': iNoisyNet.Trainer,
 }
 
 def create_loaders_v1(trainset, evalset, label_idxs, unlab_idxs,

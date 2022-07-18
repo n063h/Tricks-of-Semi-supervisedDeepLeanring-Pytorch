@@ -1,0 +1,17 @@
+Namespace(arch='noisyhead2', data_idxs=False, data_twice=False, dataset='bwscifar10', drop_ratio=0.0, ema_decay=0.97, ent_weight=None, epochs=400, eps=None, gamma=None, label_exclude=False, lr=0.1, lr_scheduler='cos', mask_noisy=0.2, min_lr=0.0001, mixup_alpha=None, model='inoisyheadmatch', momentum=0.9, n_power=None, nesterov=True, num_labels=4000, optim='sgd', print_freq=20, rampdown_length=50, rampup_length=80, save_dir='./checkpoints', save_freq=0, soft=None, steps=None, sup_batch_size=100, t1=None, t2=None, threshold=0.95, usp_batch_size=100, usp_weight=1.0, weight_decay=0.0005, weight_rampup=30, workers=4, xi=None)
+pytorch version : 1.8.1+cu102
+Files already downloaded and verified
+Files already downloaded and verified
+FixMatch
+------ Training epochs: 0 ------
+/home/lvhang/miniconda3/envs/nir_py37_torch1.6/lib/python3.7/site-packages/torch/optim/lr_scheduler.py:134: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  "https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate", UserWarning)
+[train][20 ] lloss: 2.36580	lnoisyloss: 0.60121	uloss: 1.31026	uloss_noisy_all: 1.31026	lacc: 34.000%	uacc: 29.000%
+[train][40 ] lloss: 1.94488	lnoisyloss: 0.26929	uloss: 0.80747	uloss_noisy_all: 0.80747	lacc: 38.000%	uacc: 23.000%
+[train][60 ] lloss: 2.33326	lnoisyloss: 0.51323	uloss: 0.68732	uloss_noisy_all: 0.68732	lacc: 32.000%	uacc: 12.000%
+[train][80 ] lloss: 1.64144	lnoisyloss: 0.02701	uloss: 0.11064	uloss_noisy_all: 0.11064	lacc: 36.000%	uacc: 19.000%
+[train][100] lloss: 1.60977	lnoisyloss: 0.00702	uloss: 0.06515	uloss_noisy_all: 0.06515	lacc: 34.000%	uacc: 24.000%
+[train][120] lloss: 1.40771	lnoisyloss: 0.00394	uloss: 0.01870	uloss_noisy_all: 0.01870	lacc: 45.000%	uacc: 25.000%
+[train][140] lloss: 1.37976	lnoisyloss: 0.00140	uloss: 0.00976	uloss_noisy_all: 0.00976	lacc: 44.000%	uacc: 28.000%
+[train][160] lloss: 1.36511	lnoisyloss: 0.00060	uloss: 0.01629	uloss_noisy_all: 0.01088	lacc: 53.000%	uacc: 26.000%
+[train][180] lloss: 1.29037	lnoisyloss: 0.00203	uloss: 0.01303	uloss_noisy_all: 0.01303	lacc: 50.000%	uacc: 38.000%

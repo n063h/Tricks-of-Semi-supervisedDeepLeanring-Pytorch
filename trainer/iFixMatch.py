@@ -78,7 +78,7 @@ class Trainer:
             loop_info['lacc'].append(label_y.eq(outputs.max(1)[1]).float().sum().item())
             loop_info['uacc'].append(unlab_y.eq(soutputs.max(1)[1]).float().sum().item())
             if print_freq>0 and (batch_idx%print_freq)==0:
-                print(f"[train][{batch_idx:<3}]", self.gen_info(loop_info, lbs, ubs))
+                print(f"[train][{batch_idx:<3}]", self.gen_info(loop_info, lbs, ubs),flush=True)
         self.update_bn(self.model, self.ema_model)
         print(f">>>[train]", self.gen_info(loop_info, label_n, unlab_n, False))
         return loop_info, label_n
@@ -99,7 +99,7 @@ class Trainer:
             loop_info['lacc'].append(targets.eq(outputs.max(1)[1]).float().sum().item())
             loop_info['l2acc'].append(targets.eq(ema_outputs.max(1)[1]).float().sum().item())
             if print_freq>0 and (batch_idx%print_freq)==0:
-                print(f"[test][{batch_idx:<3}]", self.gen_info(loop_info, lbs, ubs))
+                print(f"[test][{batch_idx:<3}]", self.gen_info(loop_info, lbs, ubs),flush=True)
         print(f">>>[test]", self.gen_info(loop_info, label_n, unlab_n, False))
         return loop_info, label_n
 

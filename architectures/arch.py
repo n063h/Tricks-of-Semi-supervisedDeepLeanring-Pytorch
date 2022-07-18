@@ -13,6 +13,9 @@ from architectures.shufflenet import ShuffleNetG2, ShuffleNetG3
 from architectures.mobilenet import MobileNetV1
 from architectures.mobilenetv2 import MobileNetV2
 from architectures.convlarge import convLarge
+from architectures.convlarge_noisyhead1 import convLargeNoisyHead1
+from architectures.convlarge_noisyhead2 import convLargeNoisyHead2
+from architectures.convlarge_noisynet import convLargeNoisyNet
 
 arch = {
         'lenet': LeNet,
@@ -46,7 +49,10 @@ arch = {
         'shuffleG3': ShuffleNetG3,
         'mobileV1': MobileNetV1,
         'mobileV2': MobileNetV2,
-        'cnn13': convLarge
+        'cnn13': convLarge,
+        'noisyhead1': convLargeNoisyHead1,
+        'noisyhead2': convLargeNoisyHead2,
+        'noisynet': convLargeNoisyNet
         }
 
 

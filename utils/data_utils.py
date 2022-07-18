@@ -43,6 +43,18 @@ class TransformWeakStrong:
         out2 = self.transform2(inp)
         return out1, out2
 
+class TransformBaseWeakStrong:
+
+    def __init__(self, trans0,trans1, trans2):
+        self.transform0 = trans0
+        self.transform1 = trans1
+        self.transform2 = trans2
+
+    def __call__(self, inp):
+        base=self.transform0(inp)
+        out1 = self.transform1(base)
+        out2 = self.transform2(base)
+        return out1, out2
 
 class TwoStreamBatchSampler(Sampler):
     """Iterate two sets of indices

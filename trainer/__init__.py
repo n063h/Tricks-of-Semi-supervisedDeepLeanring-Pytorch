@@ -19,3 +19,5 @@ from . import iFixMatch
 from . import eFixMatch
 from . import eMixPseudoLabelv1
 from . import eMixPseudoLabelv2
+from . import iNoisyHead
+from . import iNoisyNet

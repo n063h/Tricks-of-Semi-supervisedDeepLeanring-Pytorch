@@ -5,7 +5,7 @@ import torchvision.transforms as transforms
 
 from utils.randAug import RandAugmentMC
 from utils.data_utils import NO_LABEL
-from utils.data_utils import TransformWeakStrong as wstwice
+from utils.data_utils import TransformWeakStrong as wstwice,TransformBaseWeakStrong as bwstwice
 
 load = {}
 def register_dataset(dataset):
@@ -107,8 +107,8 @@ def wscifar10(n_labels, data_root='./data-local/cifar10/'):
     num_classes = 10
     label_per_class = n_labels // num_classes
     labeled_idxs, unlabed_idxs = split_relabel_data(
-                                    np.array(trainset.train_labels),
-                                    trainset.train_labels,
+                                    np.array(trainset.targets),
+                                    trainset.targets,
                                     label_per_class,
                                     num_classes)
     return {
@@ -119,6 +119,52 @@ def wscifar10(n_labels, data_root='./data-local/cifar10/'):
         'num_classes': num_classes
     }
 
+@register_dataset('bwscifar10')
+def bwscifar10(n_labels, data_root='./data-local/cifar10/'):
+    channel_stats = dict(mean = [0.4914, 0.4822, 0.4465],
+                         std = [0.2023, 0.1994, 0.2010])
+    base=transforms.Compose([
+        transforms.RandomHorizontalFlip(),
+        transforms.Pad(2, padding_mode='reflect'),
+    ])
+    weak = transforms.Compose([
+        transforms.RandomHorizontalFlip(),
+        transforms.Pad(2, padding_mode='reflect'),
+        transforms.RandomCrop(32),
+        transforms.ToTensor(),
+        transforms.Normalize(**channel_stats)
+    ])
+    strong = transforms.Compose([
+        transforms.RandomHorizontalFlip(),
+        transforms.Pad(2, padding_mode='reflect'),
+        transforms.RandomCrop(32),
+        RandAugmentMC(n=2, m=10),
+        transforms.ToTensor(),
+        transforms.Normalize(**channel_stats)
+    ])
+    train_transform = bwstwice(base,weak, strong)
+    eval_transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize(**channel_stats)
+    ])
+    trainset = tv.datasets.CIFAR10(data_root, train=True, download=True,
+                                   transform=train_transform)
+    evalset = tv.datasets.CIFAR10(data_root, train=False, download=True,
+                                   transform=eval_transform)
+    num_classes = 10
+    label_per_class = n_labels // num_classes
+    labeled_idxs, unlabed_idxs = split_relabel_data(
+                                    np.array(trainset.targets),
+                                    trainset.targets,
+                                    label_per_class,
+                                    num_classes)
+    return {
+        'trainset': trainset,
+        'evalset': evalset,
+        'label_idxs': labeled_idxs,
+        'unlab_idxs': unlabed_idxs,
+        'num_classes': num_classes
+    }
 
 @register_dataset('cifar100')
 def cifar100(n_labels, data_root='./data-local/cifar100/'):
