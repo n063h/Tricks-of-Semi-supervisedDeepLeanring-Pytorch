@@ -1,8 +1,9 @@
 #!coding:utf-8
+from collections import Counter
 import numpy as np
 import torchvision as tv
 import torchvision.transforms as transforms
-
+from utils.nir_utils import *
 from utils.randAug import RandAugmentMC
 from utils.data_utils import NO_LABEL
 from utils.data_utils import TransformWeakStrong as wstwice,TransformBaseWeakStrong as bwstwice
@@ -39,6 +40,20 @@ def split_relabel_data(np_labs, labels, label_per_class,
 
     return labeled_idxs, unlabed_idxs
      
+def split(target,ratio):
+    c=Counter(target)
+    q=[(int(i),int(j*ratio)) for (i,j) in  c.items()]
+    label_idx,unlabel_idx=[],[]
+    for cls_ind,label_num in q:
+        idx=np.where(target==cls_ind)[0]
+        np.random.shuffle(idx)
+        label_idx.extend(idx[:label_num])
+        unlabel_idx.extend(idx[label_num:])
+    np.random.shuffle(label_idx)
+    np.random.shuffle(unlabel_idx)
+    for idx in unlabel_idx:
+        target[idx] = encode_label(target[idx])
+    return label_idx,unlabel_idx
 
 @register_dataset('cifar10')
 def cifar10(n_labels, data_root='./data-local/cifar10/'):
@@ -200,4 +215,37 @@ def cifar100(n_labels, data_root='./data-local/cifar100/'):
         'labeled_idxs': labeled_idxs,
         'unlabeled_idxs': unlabed_idxs,
         'num_classes': num_classes
+    }
+
+@register_dataset('cls50')
+def cls50(label_ratio):
+
+    weak = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=1, max_value_ratio=0.2)
+    ])
+    strong = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=2, max_value_ratio=1)
+    ])
+    train_transform = wstwice(weak, strong)
+    eval_transform = transforms.Compose([
+        ToTensor(),
+    ])
+
+    train_data,train_target=read_npy('train')
+    eval_data,eval_target=read_npy('test')
+    
+    trainset = NIRDataset(train_data,train_target,train_transform,50)
+    evalset = NIRDataset(eval_data,eval_target,eval_transform,50)
+
+    labeled_idxs, unlabed_idxs = split(
+                                    trainset.targets,
+                                    label_ratio)
+    return {
+        'trainset': trainset,
+        'evalset': evalset,
+        'label_idxs': labeled_idxs,
+        'unlab_idxs': unlabed_idxs,
+        'num_classes': 50
     }

@@ -124,7 +124,7 @@
 
 ##=== iFixMatchv2 ===
 # cifar10-4k
-# CUDA_VISIBLE_DEVICES=$1 python main.py --dataset=wscifar10 --sup-batch-size=100 --usp-batch-size=100 --label-exclude=False --num-labels=4000 --arch=cnn13 --model=ifixmatch --threshold=.95 --usp-weight=1. --ema-decay=0.97 --optim=sgd --epochs=400 --lr=0.1 --momentum=0.9 --weight-decay=5e-4 --nesterov=True --lr-scheduler=cos --min-lr=1e-4 --rampup-length=80 --rampdown-length=50 --data-twice=False --save-freq=0 2>&1 | tee results/ifixmatchv2_cifar10-4k_$(date +%y-%m-%d-%H-%M).txt
+#CUDA_VISIBLE_DEVICES=$1 python main.py --dataset=wscifar10 --sup-batch-size=100 --usp-batch-size=100 --label-exclude=False --num-labels=4000 --arch=cnn13 --model=ifixmatch --threshold=.95 --usp-weight=1. --ema-decay=0.97 --optim=sgd --epochs=400 --lr=0.1 --momentum=0.9 --weight-decay=5e-4 --nesterov=True --lr-scheduler=cos --min-lr=1e-4 --rampup-length=80 --rampdown-length=50 --data-twice=False --save-freq=0 2>&1 | tee results/ifixmatchv2_cifar10-4k_$(date +%y-%m-%d-%H-%M).txt
 
 ##=== eFixMatchv1 ===
 # cifar10-4k
@@ -132,6 +132,4 @@
 
 ##=== eFixMatchv2 ===
 # cifar10-4k
-#CUDA_VISIBLE_DEVICES=$1 python main.py --dataset=wscifar10 --sup-batch-size=100 --usp-batch-size=100 --label-exclude=False --num-labels=4000 --arch=cnn13 --model=efixmatch --threshold=.95 --usp-weight=1. --ema-decay=0.97 --optim=sgd --epochs=400 --lr=0.1 --momentum=0.9 --weight-decay=5e-4 --nesterov=True --lr-scheduler=cos --min-lr=1e-4 --rampup-length=80 --rampdown-length=50 --data-twice=False --data-idxs=True --save-freq=0 2>&1 | tee results/efixmatchv2_cifar10-4k_$(date +%y-%m-%d-%H-%M).txt
-CUDA_VISIBLE_DEVICES=$1 python main.py --dataset=bwscifar10 --sup-batch-size=100 --usp-batch-size=100 --label-exclude=False --num-labels=4000 --arch=cnn13 --model=ifixmatch --threshold=.95 --usp-weight=1. --ema-decay=0.97 --optim=sgd --epochs=400 --lr=0.1 --momentum=0.9 --weight-decay=5e-4 --nesterov=True --lr-scheduler=cos --min-lr=1e-4 --rampup-length=80 --rampdown-length=50 --data-twice=False --save-freq=0 2>&1 | tee results/ifixmatchv2_cifar10-4k_$(date +%y-%m-%d-%H-%M).txt
-CUDA_VISIBLE_DEVICES=$1 python main.py --dataset=bwscifar10 --sup-batch-size=100 --usp-batch-size=100 --label-exclude=False --num-labels=400 --arch=cnn13 --model=ifixmatch --threshold=.95 --usp-weight=1. --ema-decay=0.97 --optim=sgd --epochs=400 --lr=0.1 --momentum=0.9 --weight-decay=5e-4 --nesterov=True --lr-scheduler=cos --min-lr=1e-4 --rampup-length=80 --rampdown-length=50 --data-twice=False --save-freq=0 2>&1 | tee results/ifixmatchv2_cifar10-400_$(date +%y-%m-%d-%H-%M).txt
+python main.py --dataset=cls50 --sup-batch-size=100 --usp-batch-size=100 --label-exclude=False --num-labels=400 --label-ratio=0.1 --arch=resnet1D --model=enirmatch --threshold=.95 --usp-weight=1. --ema-decay=0.97 --optim=sgd --epochs=150 --lr=0.01 --momentum=0.9 --weight-decay=5e-4 --nesterov=True --lr-scheduler=cos --min-lr=1e-4 --rampup-length=80 --rampdown-length=50 --data-twice=False --data-idxs=True --save-freq=0 2>&1 | tee results/enirmatchv2_cls50_$(date +%y-%m-%d-%H-%M).txt

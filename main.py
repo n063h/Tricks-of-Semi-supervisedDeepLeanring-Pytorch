@@ -36,9 +36,9 @@ build_model = {
     'efixmatch': eFixMatch.Trainer,
     'emixpslabv1': eMixPseudoLabelv1.Trainer,
     'emixpslabv2': eMixPseudoLabelv2.Trainer,
-    'inoisyheadmatch': iNoisyHead.Trainer,
-    'inoisynetmatch': iNoisyNet.Trainer,
+    'enirmatch':eNirMatch.Trainer
 }
+
 
 def create_loaders_v1(trainset, evalset, label_idxs, unlab_idxs,
                       num_classes,
@@ -136,7 +136,10 @@ def run(config):
     if config.save_freq!=0 and not os.path.exists(config.save_dir):
         os.makedirs(config.save_dir)
     ## prepare data
-    dconfig   = datasets.load[config.dataset](config.num_labels)
+    if config.label_ratio!=1:
+        dconfig   = datasets.load[config.dataset](config.label_ratio)
+    else:
+        dconfig   = datasets.load[config.dataset](config.num_labels)
     if config.model[-1]=='1':
         loaders = create_loaders_v1(**dconfig, config=config)
     elif config.model[-1]=='2' or config.model[-5:]=='match':

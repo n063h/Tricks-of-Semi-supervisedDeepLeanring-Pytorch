@@ -1,11 +1,14 @@
 import argparse
+import os
+import time
 
 __all__ = ['parse_cmd_args']
 
 
 def create_parser():
     parser = argparse.ArgumentParser(description='Semi-supevised Training --PyTorch ')
-
+    now = time.strftime("%Y_%m_%d_%H:%M:%S", time.localtime())
+    cwd = os.getcwd()
     # Log and save
     parser.add_argument('--print-freq', default=20, type=int, metavar='N', help='display frequence (default: 20)')
     parser.add_argument('--save-freq', default=0, type=int, metavar='EPOCHS', help='checkpoint frequency(default: 0)')
@@ -68,6 +71,15 @@ def create_parser():
     parser.add_argument('--weight-rampup', default=30, type=int, metavar='EPOCHS', help='the length of rampup weight (default: 30)')
     parser.add_argument('--ent-weight', type=float, metavar='W', help='the weight of minEnt regularization')
     parser.add_argument('--mask-noisy', type=float,default=1.0, help='mask the loss whose weak aug sample is noisy')
+    
+    # Opt for nir
+    parser.add_argument('--label-ratio',  default=1.0,type=float, metavar='W', help='label-ratio for nir datasets')
+    parser.add_argument('--time', type=str, default=now,help='time.now')
+    parser.add_argument('--cwd', type=str, default=cwd,help='cwd')
+    parser.add_argument('--semi', action='store_true', default=False,help='enable semi')
+    parser.add_argument('--tsa',type=str,  default=None,
+                            help='tsa schedule : [linear_schedule,exp_schedule,log_schedule]')
+    parser.add_argument('--comment', type=str,  default=None,help='say something')
 
     return parser
 
