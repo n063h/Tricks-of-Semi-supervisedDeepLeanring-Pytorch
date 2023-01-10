@@ -249,3 +249,102 @@ def cls50(label_ratio):
         'unlab_idxs': unlabed_idxs,
         'num_classes': 50
     }
+    
+@register_dataset('cls50i')
+def cls50i(label_ratio):
+
+    weak = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=1, max_value_ratio=0.2)
+    ])
+    strong = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=2, max_value_ratio=1)
+    ])
+    train_transform = wstwice(weak, strong)
+    eval_transform = transforms.Compose([
+        ToTensor(),
+    ])
+
+    train_data,train_target=read_npy('train')
+    eval_data,eval_target=read_npy('test')
+    
+    trainset = NIRDataset(train_data,train_target,train_transform,50,0)
+    evalset = NIRDataset(eval_data,eval_target,eval_transform,50,0)
+
+    labeled_idxs, unlabed_idxs = split(
+                                    trainset.targets,
+                                    label_ratio)
+    return {
+        'trainset': trainset,
+        'evalset': evalset,
+        'label_idxs': labeled_idxs,
+        'unlab_idxs': unlabed_idxs,
+        'num_classes': 50
+    }
+    
+@register_dataset('cls50a')
+def cls50a(label_ratio):
+
+    weak = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=1, max_value_ratio=0.2)
+    ])
+    strong = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=2, max_value_ratio=1)
+    ])
+    train_transform = wstwice(weak, strong)
+    eval_transform = transforms.Compose([
+        ToTensor(),
+    ])
+
+    train_data,train_target=read_npy('train')
+    eval_data,eval_target=read_npy('test')
+    
+    trainset = NIRDataset(train_data,train_target,train_transform,50,1)
+    evalset = NIRDataset(eval_data,eval_target,eval_transform,50,1)
+
+    labeled_idxs, unlabed_idxs = split(
+                                    trainset.targets,
+                                    label_ratio)
+    return {
+        'trainset': trainset,
+        'evalset': evalset,
+        'label_idxs': labeled_idxs,
+        'unlab_idxs': unlabed_idxs,
+        'num_classes': 50
+    }
+    
+@register_dataset('cls50r')
+def cls50r(label_ratio):
+
+    weak = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=1, max_value_ratio=0.2)
+    ])
+    strong = transforms.Compose([
+        ToTensor(),
+        RandAugmentNir(choice_num=2, max_value_ratio=1)
+    ])
+    train_transform = wstwice(weak, strong)
+    eval_transform = transforms.Compose([
+        ToTensor(),
+    ])
+
+    train_data,train_target=read_npy('train')
+    eval_data,eval_target=read_npy('test')
+    
+    trainset = NIRDataset(train_data,train_target,train_transform,50,2)
+    evalset = NIRDataset(eval_data,eval_target,eval_transform,50,2)
+
+    labeled_idxs, unlabed_idxs = split(
+                                    trainset.targets,
+                                    label_ratio)
+    return {
+        'trainset': trainset,
+        'evalset': evalset,
+        'label_idxs': labeled_idxs,
+        'unlab_idxs': unlabed_idxs,
+        'num_classes': 50
+    }

@@ -105,16 +105,24 @@ class ToTensor(object):
         return torch.Tensor(origin).float()
 
 class NIRDataset(Dataset):
-    def __init__(self, data,targets,transfoms,num_classes):
+    def __init__(self, data,targets,transfoms,num_classes,axis=None):
         self.data=data
         self.targets=targets
         self.transfoms=transfoms
         self.num_classes=num_classes
-        
+        self.axis=axis
+        if axis is not None:
+            self.axis_data=data[:,axis]
+        else:
+            self.axis_data=data
+            
     def __getitem__(self, index):
-        x,y=self.data[index][1,:],self.targets[index]
-        _x=self.transfoms(x)
+        x,y=self.axis_data[index],self.targets[index]
+        if self.axis is not None:
+            _x=self.transfoms(x)
+        else:
+            _x=x
         return _x,y
 
     def __len__(self):
-        return len(self.data)
+        return len(self.axis_data)

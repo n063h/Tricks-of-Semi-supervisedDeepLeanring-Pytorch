@@ -133,10 +133,15 @@ class Trainer:
         for ep in range(epochs):
             self.epoch = ep
             if scheduler is not None: scheduler.step()
+            t1=datetime.datetime.now()
             print("------ Training epochs: {} ------".format(ep))
             self.train(label_data, unlab_data, self.print_freq)
+            t2=datetime.datetime.now()
+            print(f"------ Training epochs: {ep} Cost {t2-t1} ------")
             print("------ Testing epochs: {} ------".format(ep))
             info, n = self.test(test_data, self.print_freq)
+            t3=datetime.datetime.now()
+            print(f"------ Testing epochs: {ep} Cost {t3-t2} ------")
             acc     = sum(info['lacc'])/n
             if acc>best_acc: best_acc, best_info = acc, info
             ## save model
